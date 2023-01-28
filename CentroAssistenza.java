@@ -1,131 +1,347 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
+import static java.lang.System.out;
 public class CentroAssistenza {
-    public static void main(String[] args) {
-        String privato;
-        System.out.println("Esame di OOP 2023");
-        System.out.println("Gestione Centro Assistenza Tecnica");
+    public CentroAssistenza() {
+    }
+       public static void main(String[] args) {
+        int Numint=0;
+           String privato;
+           String PartitaIva = "";
+           String CodiceFiscale = "";
+           String RagioneSociale = "";
+           String Indirizzo = "";
+           String ProblemaRiscontrato="";
+           String CodiceProdotto="";
+           String MatricolaProdotto="";
+           String Articolo = "";
+           String StatoIntervento = "Aperto";
+           String DescriInt = "";
+           Double OreInt = 0.0;
+           Double CostoInt = 0.0;
+           LocalDate DataApertura = LocalDate.now();
+           LocalDate DataChiusura = LocalDate.now();
+
+        TreeMap<String, Cliente> cliente =new TreeMap<>();
+        //inserimento di codici per scopi didattici in modo da avere clienti e prodotti preinseriti per testare il codice
+                    String codice="MRURST72A07I452H";
+                    cliente.put (codice, new Cliente(codice,"Ernesto", "Mura", "", "", "MRURST72A07I452H", "Roma", "Via Cagliari"));
+                   // out.println(cliente.get(codice).toString());
+                    codice="02382300909";
+                    cliente.put (codice, new Cliente(codice,"", "", "Seven informatica srl", "02382300909", "", "Sassari", "Via Roma"));
+                  //  out.println(cliente.get(codice).toString());
+                    codice="11111111111";
+                    cliente.put (codice, new Cliente(codice,"", "", "Azienda di prova", "11111111111", "", "Roma", "Via Italia"));
+        //**********
+        ArrayList<ProdottoNew> list=new ArrayList<>();
+            // inserisco un pò di codici per testare il funzionamento
+                    list.add(new ProdottoNew("123","111111","Personal computer","Pz"));
+                    list.add(new ProdottoNew("234","222222","Stampante Laser","Pz"));
+                    list.add(new ProdottoNew("345","333333","Monitor LCD","Pz"));
+            //*******
+        HashMap<Integer, Ticket> ticket =new HashMap<>();
+            ticket.put(1, new Ticket(1, LocalDate.now(), "11111111111", "", "Azienda di prova", "Non Parte", "123", "111111", "Aperto", "", 0.0, 0.0, LocalDate.now()));
+            ticket.put(2, new Ticket(2, LocalDate.now(), "02382300909", "", "Seven Informatica srl", "Sfarfallio", "345", "333333", "Aperto", "", 0.0, 0.0, LocalDate.now()));
+            ticket.put(3, new Ticket(3, LocalDate.now(), "", "MRURST72A07I452H", "Ernesto Mura", "Carta Inceppata", "234", "222222", "Aperto", "", 0.0, 0.0, LocalDate.now()));
+        //********
+
+       // Iterator<Map.Entry<Integer,Ticket>> tik=ticket.entrySet().iterator();
+       //  while (tik.hasNext()) {
+        //    Map.Entry<Integer, Ticket> e = tik.next();
+        //    out.println(e.toString());
+       //     out.println(e.getKey());
+       //     out.println(e.getValue());
+       //     out.println("Prossimo ticket ");
+      //  }
+        //********
+        out.println("\n");
+        out.println("                                            ********** Esame di OOP 2023 **********");
+        out.println("                                         **** Gestione Centro Assistenza Tecnica ****");
         int x = 99;
         while (x != 0) {
-            Scanner codiceprodotto ;
-            Scanner cliprivato;
+            Scanner sc ;
+
             try {
 
-                Scanner test = new Scanner(System.in);
-                cliprivato = new Scanner(System.in);
-                System.out.println("****** MENU' **********");
-                System.out.println("1 Inserimento anagrafica cliente : ");
-                System.out.println("2 Inserimento anagrafica apparecchio : ");
-                System.out.println("3 apertura Ticket : ");
-                System.out.println("4 Aggiornamento Ticket : ");
-                System.out.println("5 statistiche interventi : ");
-                System.out.println("0 Uscita : ");
-                x = test.nextInt();//per inserire numero nextint
-                System.out.println("il numero la scelta da menù :" + x);
+                Scanner ScTe = new Scanner(System.in); //scanner della scelta del case
+                Scanner  ScCp = new Scanner(System.in); //scanner della scelta cliente privato o azienda
+                //out.println("\n");
+                out.println("********** MENU' *************");
+                //out.println("\n");
+                out.println("1 Inserimento anagrafica cliente : ");
+                out.println("2 Inserimento anagrafica apparecchio : ");
+                out.println("3 apertura Ticket : ");
+                out.println("4 Aggiornamento Ticket : ");
+                out.println("5 statistiche interventi : ");
+                out.println("0 Uscita : ");
+                x = ScTe.nextInt();
+                out.println("\n");
 
+            switch (x) {
+                case (1):
 
-            switch (x){
-            case (1):
-                System.out.println("Inserimento anagrafica cliente ");
-                System.out.println("Il cliente è Privato (P) o Azienda (A) (P/A)");
-                privato = cliprivato.next();
-                privato = privato.toUpperCase();
-                //in base alla risposta inserisco i dati aziendali o privati
-                if (privato.equals("P")) {
-                    //verifico se il cliente è già presente
-                    String codfisc;
-                    System.out.println("Inserire Codice fiscale ");
-                    codfisc = cliprivato.next();
-                    //if (verificaCliente()==False){
-                    ClientePrivato cliente = new ClientePrivato("", "", codfisc);
+                    out.println("Inserimento anagrafica cliente ");
+                    out.println("Il cliente è Privato (P) o Azienda (A) (P/A)");
+                    privato = ScCp.next();
+                    privato = privato.toUpperCase();
+                    //in base alla risposta inserisco i dati Aziendali o Privati
+                    if (privato.equals("P")) {
+                        String codfisc;
+                        do {
+                            out.println("Inserire Codice fiscale (16 caratteri)");
+                            codfisc = ScCp.next();
+                        } while (codfisc.length() != 16);
+                        codfisc = codfisc.toUpperCase();
+                        //verifico se il cliente esiste in caso di assenza permetto l'inserimento
+                        boolean result = true;
+                        try {
+                            result = cliente.get(codfisc) == null;
+                        } catch (NullPointerException e) {
+                            System.out.println("Codice fiscale non presente");
+                        }
+                        if (!result) {
+                            //System.out.println("result "+result);
+                            System.out.println("cliente " + cliente.get(codfisc));
+                            System.out.println("Codice fiscale " + codfisc + " già esistente ");
+                            break;
+                        }
+                        //System.out.println("result "+result);
+                        ClientePrivato clientepriv = new ClientePrivato("", "", codfisc);
+                        codice=codfisc;
+                        cliente.put (codice, new Cliente(codice, clientepriv.nome, clientepriv.cognome, "", "", codfisc, clientepriv.Citta, clientepriv.Indirizzo));
+                                            }
+                    if (privato.equals("A")) {
+                        String piva;
+                        do {
+                            out.println("Inserire la partita iva (11 caratteri)");
+                            piva = ScCp.next();
+                        } while (piva.length() != 11);
+                        //verifico se il cliente esiste in caso di assenza permetto l'inserimento
+                        boolean result = true;
+                        try {
+                            result = cliente.get(piva) == null;
+                        } catch (NullPointerException e) {
+                            System.out.println("Partita Iva non presente");
+                        }
+                        if (!result) {
+                            System.out.println("cliente " + cliente.get(piva));
+                            System.out.println("Partita Iva " + piva + " già esistente ");
+                            break;
+                        }
+                        ClienteAzienda clienteaz = new ClienteAzienda(piva);
+                        codice=piva;
+                        cliente.put (codice, new Cliente(codice, "", "", clienteaz.Ragionesociale, piva, "", clienteaz.Citta, clienteaz.Indirizzo));
+                                            }
+                    out.println("Vuoi visualizzare lista clienti presenti (S/N)");
+                    String scelta = ScCp.next();
+                    privato = scelta.toUpperCase();
+                    //in base alla risposta visualizzo elenco prodotti
+                    if (privato.equals("S"))    {
+                        Iterator<Map.Entry<String,Cliente>> cli=cliente.entrySet().iterator();
+                        while (cli.hasNext()) {
+                            Map.Entry<String, Cliente> e = cli.next();
+                            out.println(e.getKey());
+                            out.println(e.getValue());
 
-                    //}
-                }
-                if (privato.equals("A")) {
-                    String piva;
-                    System.out.println("Inserire la partita iva ");
-                    //cliprivato.next();    //verifico se il cliente è già presente
-                    piva = cliprivato.next();
-                    //if (verificaCliente()==False){
-                    ClienteAzienda clienteaz = new ClienteAzienda( piva);
-                    //}
-                }
-                break;
-            case (2):
-
-                // inserisco un pò di codici per testare il funzionamento
-                ArrayList<ProdottoNew> list=new ArrayList<>();
-                list.add(new ProdottoNew("123","112233","Personal computer","Pz"));
-                list.add(new ProdottoNew("234","223344","Stampante Laser","Pz"));
-                list.add(new ProdottoNew("456","334455","Monitor LCD","Pz"));
-                //vado  leggere il nuovo codice e ne verifico l'esistenza
-                codiceprodotto = new Scanner(System.in);
-                System.out.println("Inserimento nuovo codice prodotto ");
-                System.out.println("Inserire Codice ");
-                String codice = codiceprodotto.nextLine();
-                System.out.println("Inserire la Matricola ");
-                String matricola = codiceprodotto.nextLine();
-                Iterator<ProdottoNew> it=list.iterator();
-                boolean result;
-                while(it.hasNext()){
-                ProdottoNew p =it.next() ;
-                //in base all'equals due prodotti sono uguali se hanno codice e matricola uguali
-                    //***** non sta entrando nel ciclo perchè nn riconosce l'equal true *****
-               if (codiceprodotto.equals(p) ) {
-                    result= (p.equals(codiceprodotto)) ;
-                    System.out.println("Codice già esistente ");
-                    System.out.println("result di equals "+result);
+                            out.println("Prossimo Clientet ");
+                                              }
+                                                }
                     break;
-                   }
-                    System.out.println("Inserire Descrizione ");
-                    String descrizione = codiceprodotto.nextLine();
-                    System.out.println("Inserire unità di misura ");
-                    String um = codiceprodotto.nextLine();
-                    list.add(new ProdottoNew(codice,matricola,descrizione,um));
-                    break;
-                }
-                System.out.println("Vuoi visualizzare articoli presenti (S/N)");
-                String scelta = cliprivato.next();
-                privato = scelta.toUpperCase();
-                               //in base alla risposta inserisco stampa elenco prodotti
-              if (privato.equals("S")) {
-                Iterator<ProdottoNew> iter=list.iterator();
-                while(iter.hasNext()){
-                   ProdottoNew p =iter.next();
-                   System.out.println(p);
+                case (2):
+                    //vado  leggere il nuovo codice e ne verifico l'esistenza
+                    sc = new Scanner(System.in);
+                    out.println("Inserimento nuovo codice prodotto ");
+                    out.println("Inserire Codice ");
+                    String CodProdotto = sc.nextLine();
+                    out.println("Inserire la Matricola ");
+                    String MatProdotto = sc.nextLine();
+                    Iterator<ProdottoNew> it = list.iterator();
+                    boolean b = true;
+                    while (it.hasNext()) {
+                        ProdottoNew p = it.next();
+                        //verifico se il prodotto esiste (codice e matricola uguali) in caso di assenza permetto l'inserimento
+                        //  System.out.println("Ciclo while per vedere i prodotti "+p.toString());
+                        if (CodProdotto.equals(p.getCodice()) && MatProdotto.equals(p.getMatricola()))
+                        {
+                            out.println("Codice già esistente ");
+                            b = false;
+                            break;
+                        }
+                                         }
+                    if (b) {
+                        out.println("Inserire Descrizione ");
+                        String descrizione = sc.nextLine();
+                        out.println("Inserire unità di misura ");
+                        String um = sc.nextLine();
+                        list.add(new ProdottoNew(CodProdotto, MatProdotto, descrizione, um));
                     }
-                  }
-                break;
-            case (3):
-                System.out.println("Apertura ticket ");
-                break;
+                    out.println("Vuoi visualizzare articoli presenti (S/N)");
+                    scelta = ScCp.next();
+                    privato = scelta.toUpperCase();
+                    //in base alla risposta visualizzo elenco prodotti
+                    if (privato.equals("S")) {
+                        for (ProdottoNew pr : list) {
+                            out.println(pr);
+                        }
+                    }
+                    break;
+                case (3):
+                    Numint=3;
+
+                    Scanner ScTi = new Scanner(System.in);
+                    //inserisco codice fiscale o partita iva e controllo correttezza
+                    out.println("**************************** Apertura ticket *****************************");
+                    String IdCliente;
+                    do {
+                        out.println("Inserimento cliente (Codice Fiscale o Partita Iva) : ");
+                        IdCliente = ScCp.next();
+                    } while ((IdCliente.length() != 16) && (IdCliente.length() != 11));
+                    IdCliente = IdCliente.toUpperCase();
+                    //out.println("Codice cliente inserito :"+IdCliente);
+                    //verifico se l'identificativo del cliente esiste
+                    //se non esiste rimando al menu per inserimento
+                    boolean result = false;
+                    try {
+                        result = cliente.get(IdCliente) == null;
+                    } catch (NullPointerException e) {
+                        System.out.println("Inserire Anagrafica Cliente. Partita Iva o Codice Fiscale non presenti ");
+                    }
+                    if (!result) {
+                        // System.out.println("cliente "+ cliente.get(IdCliente));
+                        System.out.println("OK! Identificativo Cliente " + IdCliente + " già esistente ");
+                        out.println("*********************************** Apertura ticket ***********************************");
+                        // il cliente esiste vado ad inserire gli altri dati del ticket in HasMap
+                    }
+                    Numint = Numint + 1;
+                    DataApertura = LocalDate.now();
+                    DateTimeFormatter y = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    out.println("Intervento : " + Numint + " -------- Data Apertura :" + DataApertura.format(y));
+                    if (IdCliente.length() == 11) PartitaIva = IdCliente;
+                    else CodiceFiscale = IdCliente;
+                    out.println("Codice Apparecchio ");
+                    CodiceProdotto = ScTi.nextLine();
+                    out.println("Matricola Prodotto ");
+                    MatricolaProdotto = ScTi.nextLine();
+                    //inserisco prodotto e verifico se esiste (codice e matricola uguali) in tal caso carico il ticket
+                    //boolean ctr=false;
+                    b = true;
+                    int indice = -1;
+                    for (ProdottoNew p1 : list) {
+                        if (CodiceProdotto.equals(p1.getCodice()) && MatricolaProdotto.equals(p1.getMatricola())) {
+                            indice = indice + 1;
+                            out.println("OK! Prodotto esistente!" + "\n");
+                            out.println("Problema Riscontrato ");
+                            String ProbRisc = ScTi.nextLine();
+                            System.out.println("Num "+ Numint);
+                            ticket.put(Numint, new Ticket(Numint, DataApertura, PartitaIva, CodiceFiscale, RagioneSociale, ProbRisc, CodiceProdotto, MatricolaProdotto, StatoIntervento, DescriInt, OreInt, CostoInt, DataChiusura));
+                            out.println(ticket.get(Numint).Numero);
+                            out.println(ticket.get(Numint).DataApertura);
+                            out.println("inserimento ticket");
+                            out.println("************************************************************************************** ");
+                            out.println("Ticket Num. .  [" + Numint + "] ---------  Data Apertura= " + DataApertura + " ------- Stato Intervento = " + StatoIntervento);
+                            out.println("");
+                            out.println("");
+                            out.println("Identificativo Cliente " + PartitaIva + CodiceFiscale);
+                            RagioneSociale = cliente.get(IdCliente).getRagionesociale(); // ???????????????
+                            out.println("Ragione Sociale: " + RagioneSociale);
+                            Indirizzo = cliente.get(IdCliente).getCitta() + " - " + cliente.get(IdCliente).getIndirizzo();
+                            out.println("Indirizzo: " + Indirizzo);
+                            out.println("");
+                            Articolo = String.valueOf(list.get(indice).getDescrizione()); // ???????????????
+                            out.println("Articolo: " + Articolo);
+                            out.println("Codice Prodotto = " + CodiceProdotto + " S/N :" + MatricolaProdotto);
+                            out.println("");
+                            out.println("Problema Riscontrato : " + ProbRisc);
+                            out.println("");
+                            out.println("fine ticket ");
+                            System.out.println("************************************************************************************** " + "\n");
+                            b = false;
+                            break;
+                        }
+                    }
+                    if (b) {
+                        out.println("+++++++++++ Attenzione !!!! Inserire prodotto mancante +++++++++++*");
+                        break;
+                    }
+                    break;
+
             case (4):
-                System.out.println("aggiornamento ticket ");
+                //richiamo il ticket inserito in hasmap e inserisco dati mancanti
+                //stato intervento (aperto-chiuso-attesa ricambi)
+                //ore lavoro e descrizione lavoro
+                //data chiusura intervento
+               out.println("aggiornamento ticket ");
+               // Iterator tik = ticket.entrySet().iterator();
+                // Verifica con il metodo hasNext() che nella hashmap
+                // ci siano altri elementi su cui ciclare
+                Object Iterator;
+               Iterator<Map.Entry<Integer,Ticket>> tik=ticket.entrySet().iterator();
+                //Map.Entry<Integer, Ticket> t = tik.next();
+                         while (tik.hasNext()) {
+                         Map.Entry<Integer, Ticket> e = tik.next();
+                           out.println(e.getValue().toString());
+                           out.println("Prossimo ticket ");
+                        }
+                Scanner ScNt = new Scanner(System.in);
+                Scanner ScAg = new Scanner(System.in);
+                out.println("Inserire il numero del Ticket da aggiornare");
+                int numtick = ScNt.nextInt();
+                out.println("Inserire la descrizione del lavoro eseguito");
+                DescriInt = ScAg.nextLine();
+                out.println("Inserire il tempo di esecuzione del lavoro eseguito in h.");
+                OreInt = ScAg.nextDouble();
+                out.println("Inserire il costo orario del lavoro eseguito in €. ");
+                CostoInt = ScAg.nextDouble();
+                CostoInt = CostoInt*OreInt;
+                out.println("Inserire lo stato dell'intevento");
+                StatoIntervento = ScAg.nextLine();
+                DataChiusura = LocalDate.now();
+                ticket.put(numtick, new Ticket(numtick, DataApertura, PartitaIva, CodiceFiscale, RagioneSociale, ProblemaRiscontrato, CodiceProdotto, MatricolaProdotto, StatoIntervento, DescriInt, OreInt, CostoInt, DataChiusura));
+                out.println("Aggiornamento ticket");
+                out.println("************************************************************************************** ");
+                out.println("Ticket Num. .  [" + numtick + "] ---------  Data Apertura= " + DataApertura + " ------- Stato Intervento = " + StatoIntervento);
+                out.println("");
+                out.println("");
+                out.println("Identificativo Cliente " + PartitaIva + CodiceFiscale);
+                //RagioneSociale = cliente.get(IdCliente).getRagionesociale(); // ???????????????
+                out.println("Ragione Sociale: " + RagioneSociale);
+                //Indirizzo = cliente.get(IdCliente).getCitta() + " - " + cliente.get(IdCliente).getIndirizzo();
+                //out.println("Indirizzo: " + Indirizzo);
+                out.println("");
+               // Articolo = String.valueOf(list.get(indice).getDescrizione()); // ???????????????
+                //out.println("Articolo: " + Articolo);
+                out.println("Codice Prodotto = " + CodiceProdotto + " S/N :" + MatricolaProdotto);
+                out.println("");
+                out.println("Problema Riscontrato : " + ProblemaRiscontrato);
+                out.println("Descrizione Lavoro : " + DescriInt);
+                out.println("Ore Intervento : " + OreInt + " Costo Intervento :" +CostoInt);
+                out.println("Chiusura Intervento : " +DataChiusura);
+                out.println("");
+                out.println("fine ticket ");
+                System.out.println("************************************************************************************** " + "\n");
                 break;
             case (5):
-                System.out.println("Statistiche ed esportazioni ");
+                out.println("Statistiche ed esportazioni ");
+                //richiedo codice se voglio statistica per prodotto o cliente
+                //stampo su csv i dati degli interventi
                 break;
             case (0):
-                System.out.println("uscita ");
+                out.println("uscita ");
                 break;
             default:
-                System.out.println("la scelta fatta non è corretta 0 per uscire ");
+                out.println("la scelta fatta non è corretta 0 per uscire ");
         }
-        } catch (InputMismatchException e){ System.out.println("La scelta deve essere un numero da 0 a 5");
+        } catch (InputMismatchException e){ out.println("La scelta deve essere un numero da 0 a 5");
        //     break;
         } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         }
-        System.out.println("siamo usciti dal programma ");
+        out.println("++++++++++++++++++++++++++++  siamo usciti dal programma +++++++++++++++++++++++++++++++++++");
     }
-
-
 }
 
 

@@ -8,7 +8,7 @@ public class ClienteGenerico {
     // String prov;
     //  String telefono1;
     //  String email;
-    Scanner cligenerico = new Scanner(System.in);
+    Scanner ScCg = new Scanner(System.in);
 
     ClienteGenerico(/*String Indirizzo, String Citta*/) {
         this.Indirizzo = Indirizzo;
@@ -16,9 +16,9 @@ public class ClienteGenerico {
         // ClientePrivato cliente= new ClientePrivato();
         System.out.println("Inserire l'indirizzo ");
         //cligenerico.next();
-        Indirizzo = cligenerico.nextLine();
+        Indirizzo = ScCg.nextLine();
         System.out.println("Inserire la citta ");
-        Citta = cligenerico.nextLine();
+        Citta = ScCg.nextLine();
         //   this.prov=prov;
         //    this.telefono1=telefono1;
         //    this.email=email;

@@ -14,6 +14,11 @@ public class ProdottoNew {
         this.descrizione=descrizione;
         this.um=um;
     }
+
+    public ProdottoNew() {
+
+    }
+
     public String getCodice(){
         return codice;
     }
@@ -45,18 +50,7 @@ public class ProdottoNew {
         return Objects.hash(codice, matricola);
     }
 
-   // public boolean equals(ProdottoNew p){
-        //if (codice.equals(p.getCodice()) && matricola.equals(p.getMatricola()) ){
-      //  if (this.codice.equals(p.getCodice())  ){
-      //      return true;
-      //  }else {
-      //      return false ;
-      //  }
-
-
-
-
-    @Override
+       @Override
     public String toString() {
         return "ProdottoNew{" +
                 "codice='" + codice + '\'' +
@@ -65,4 +59,10 @@ public class ProdottoNew {
                 ", um='" + um + '\'' +
                 '}';
     }
+
+    public String getCodice(String codiceProdotto, String matricolaProdotto) {
+        return codiceProdotto;
+    }
+
+
 }
