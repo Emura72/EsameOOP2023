@@ -7,6 +7,13 @@ public class Ticket {
     String PartitaIva;
     String CodiceFiscale;
     String Ragionesociale;
+    public String getTecnico() {
+        return Tecnico;
+    }
+    public void setTecnico(String tecnico) {
+        Tecnico = tecnico;
+    }
+    String Tecnico;
     String ProblemaRiscontrato;
     String CodiceProdotto;
     String MatricolaProdotto;
@@ -15,13 +22,14 @@ public class Ticket {
     Double OreIntervento;
     Double CostoIntervento;
     LocalDate DataChiusura;
-    Ticket(int Numero, LocalDate DataApertura, String PartitaIva,String CodiceFiscale, String Ragionesociale, String ProblemaRiscontrato, String CodiceProdotto,String MatricolaProdotto, String StatoIntervento,  String descrizioneIntervento, Double OreIntervento, Double CostoIntervento, LocalDate DataChiusura) {
+    Ticket(int Numero, LocalDate DataApertura, String PartitaIva,String CodiceFiscale, String Ragionesociale,String Tecnico, String ProblemaRiscontrato, String CodiceProdotto,String MatricolaProdotto, String StatoIntervento,  String descrizioneIntervento, Double OreIntervento, Double CostoIntervento, LocalDate DataChiusura) {
     }
     {
             this.Numero=Numero;
             this.DataApertura=DataApertura;
             this.PartitaIva=PartitaIva;
             this.CodiceFiscale=CodiceFiscale;
+            this.Tecnico=Tecnico;
             this.Ragionesociale=Ragionesociale;
             this.ProblemaRiscontrato=ProblemaRiscontrato;
             this.CodiceProdotto=CodiceProdotto;
@@ -116,7 +124,7 @@ public class Ticket {
         return "Ticket Nr{" +
                 "Numero= " + Numero +"-  Data Apertura= " + DataApertura + ", Stato Intervento='" + StatoIntervento + '\'' +
                 ", Partita Iva= " + PartitaIva + " Codice Fiscale= " + CodiceFiscale + '\'' +
-                ", Ragione sociale= " + Ragionesociale + '\'' +
+                ", Ragione sociale= " + Ragionesociale + '\'' +"Tecnico : "+ Tecnico+
                ", Problema Riscontrato='" + ProblemaRiscontrato + '\'' +
                 ", Codice Prodotto=' " + CodiceProdotto + "  -- " +MatricolaProdotto+
                 ", descrizione Intervento='" + descrizioneIntervento + '\'' +
