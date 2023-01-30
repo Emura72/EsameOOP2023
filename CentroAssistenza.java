@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 import static java.lang.System.out;
 public class CentroAssistenza {
     public CentroAssistenza() {
     }
-
     public static void main(String[] args) {
         int Numint = 0;
         String privato;
@@ -26,40 +24,29 @@ public class CentroAssistenza {
         String DescriInt = "";
         Double OreInt = 0.0;
         Double CostoInt = 0.0;
-        LocalDate DataApertura = LocalDate.now();
-        LocalDate DataChiusura = LocalDate.now();
-
+        DateTimeFormatter y = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate DataApertura = (LocalDate.now());
+        LocalDate DataChiusura = (LocalDate.now());
         TreeMap<String, Cliente> cliente = new TreeMap<>();
         //inserimento di codici per scopi didattici in modo da avere clienti e prodotti preinseriti per testare il codice
         String codice = "MRURST72A07I452H";
         cliente.put(codice, new Cliente(codice, "Ernesto", "Mura", "", "", "MRURST72A07I452H", "Roma", "Via Cagliari"));
-        // out.println(cliente.get(codice).toString());
         codice = "02382300909";
         cliente.put(codice, new Cliente(codice, "", "", "Seven informatica srl", "02382300909", "", "Sassari", "Via Roma"));
-        //  out.println(cliente.get(codice).toString());
         codice = "11111111111";
         cliente.put(codice, new Cliente(codice, "", "", "Azienda di prova", "11111111111", "", "Roma", "Via Italia"));
         //**********
         ArrayList<ProdottoNew> list = new ArrayList<>();
         // inserisco un pò di codici per testare il funzionamento
+        //********* Prodotti
         list.add(new ProdottoNew("123", "111111", "Personal computer", "Pz"));
         list.add(new ProdottoNew("234", "222222", "Stampante Laser", "Pz"));
         list.add(new ProdottoNew("345", "333333", "Monitor LCD", "Pz"));
-        //*******
+        //******* Ticket
         HashMap<Integer, Ticket> ticket = new HashMap<>();
-        ticket.put(1, new Ticket(1, LocalDate.now(), "11111111111", "","Azienda di prova","Tecnico1" , "Non Parte", "123", "111111", "Aperto", "", 0.0, 0.0, LocalDate.now()));
-        ticket.put(2, new Ticket(2, LocalDate.now(), "02382300909", "", "Seven Informatica srl", "Tecnico1" ,"Sfarfallio", "345", "333333", "Aperto", "", 0.0, 0.0, LocalDate.now()));
-        ticket.put(3, new Ticket(3, LocalDate.now(), "", "MRURST72A07I452H", "Ernesto Mura", "Tecnico2" ,"Carta Inceppata", "234", "222222", "Aperto", "", 0.0, 0.0, LocalDate.now()));
-        //********
-
-        // Iterator<Map.Entry<Integer,Ticket>> tik=ticket.entrySet().iterator();
-        //  while (tik.hasNext()) {
-        //    Map.Entry<Integer, Ticket> e = tik.next();
-        //    out.println(e.toString());
-        //     out.println(e.getKey());
-        //     out.println(e.getValue());
-        //     out.println("Prossimo ticket ");
-        //  }
+        ticket.put(1, new Ticket(1, LocalDate.now(), "11111111111", "","Azienda di prova","TECNICO1" , "Non Parte", "123", "111111", "Aperto", "", 0.0, 0.0, LocalDate.now()));
+        ticket.put(2, new Ticket(2, LocalDate.now(), "02382300909", "", "Seven Informatica srl", "TECNICO1" ,"Sfarfallio", "345", "333333", "Aperto", "", 0.0, 0.0, LocalDate.now()));
+        ticket.put(3, new Ticket(3, LocalDate.now(), "", "MRURST72A07I452H", "Ernesto Mura", "TECNICO2" ,"Carta Inceppata", "234", "222222", "Aperto", "", 0.0, 0.0, LocalDate.now()));
         //********
         out.println("\n");
         out.println("                                            ********** Esame di OOP 2023 **********");
@@ -70,9 +57,7 @@ public class CentroAssistenza {
             try {
                 Scanner ScTe = new Scanner(System.in); //scanner della scelta del case
                 Scanner ScCp = new Scanner(System.in); //scanner della scelta cliente privato o azienda
-                //out.println("\n");
                 out.println("********** MENU' *************");
-                //out.println("\n");
                 out.println("1 Inserimento anagrafica cliente : ");
                 out.println("2 Inserimento anagrafica apparecchio : ");
                 out.println("3 apertura Ticket : ");
@@ -81,10 +66,8 @@ public class CentroAssistenza {
                 out.println("0 Uscita : ");
                 x = ScTe.nextInt();
                 out.println("\n");
-
                 switch (x) {
                     case (1):
-
                         out.println("Inserimento anagrafica cliente ");
                         out.println("Il cliente è Privato (P) o Azienda (A) (P/A)");
                         privato = ScCp.next();
@@ -109,7 +92,6 @@ public class CentroAssistenza {
                                 System.out.println("Codice fiscale " + codfisc + " già esistente ");
                                 break;
                             }
-                            //System.out.println("result "+result);
                             ClientePrivato clientepriv = new ClientePrivato("", "", codfisc);
                             codice = codfisc;
                             cliente.put(codice, new Cliente(codice, clientepriv.nome, clientepriv.cognome, "", "", codfisc, clientepriv.Citta, clientepriv.Indirizzo));
@@ -139,16 +121,14 @@ public class CentroAssistenza {
                         out.println("Vuoi visualizzare lista clienti presenti (S/N)");
                         String scelta = ScCp.next();
                         privato = scelta.toUpperCase();
-                        //in base alla risposta visualizzo elenco prodotti
+                        //in base alla risposta visualizzo elenco dei clienti
                         if (privato.equals("S")) {
                             Iterator<Map.Entry<String, Cliente>> cli = cliente.entrySet().iterator();
                             while (cli.hasNext()) {
                                 Map.Entry<String, Cliente> e = cli.next();
                                 out.println(e.getKey());
                                 out.println(e.getValue());
-
-                                out.println("Prossimo Clientet ");
-                            }
+                                                   }
                         }
                         break;
                     case (2):
@@ -164,7 +144,7 @@ public class CentroAssistenza {
                         while (it.hasNext()) {
                             ProdottoNew p = it.next();
                             //verifico se il prodotto esiste (codice e matricola uguali) in caso di assenza permetto l'inserimento
-                            //  System.out.println("Ciclo while per vedere i prodotti "+p.toString());
+                            //  System.out.println("Ciclo while per vedere i prodotti "
                             if (CodProdotto.equals(p.getCodice()) && MatProdotto.equals(p.getMatricola())) {
                                 out.println("Codice già esistente ");
                                 b = false;
@@ -189,8 +169,13 @@ public class CentroAssistenza {
                         }
                         break;
                     case (3):
-                        Numint = 3;
-
+                        Iterator<Map.Entry<Integer,Ticket>> tik=ticket.entrySet().iterator();
+                        out.println("**************************** Elenco Ticket *****************************");
+                        while (tik.hasNext()) {
+                            Map.Entry<Integer, Ticket> e = tik.next();
+                            out.println(e.getValue());
+                        }
+                        Numint = 3; //parto da 3 perchè ho inserito 3 codici per test iniziale
                         Scanner ScTi = new Scanner(System.in);
                         //inserisco codice fiscale o partita iva e controllo correttezza
                         out.println("**************************** Apertura ticket *****************************");
@@ -200,7 +185,6 @@ public class CentroAssistenza {
                             IdCliente = ScCp.next();
                         } while ((IdCliente.length() != 16) && (IdCliente.length() != 11));
                         IdCliente = IdCliente.toUpperCase();
-                        //out.println("Codice cliente inserito :"+IdCliente);
                         //verifico se l'identificativo del cliente esiste
                         //se non esiste rimando al menu per inserimento
                         boolean result = false;
@@ -210,16 +194,14 @@ public class CentroAssistenza {
                             System.out.println("Inserire Anagrafica Cliente. Partita Iva o Codice Fiscale non presenti ");
                         }
                         if (!result) {
-                            // System.out.println("cliente "+ cliente.get(IdCliente));
                             System.out.println("OK! Identificativo Cliente " + IdCliente + " già esistente ");
                             out.println("*********************************** Apertura ticket ***********************************");
-                            // il cliente esiste vado ad inserire gli altri dati del ticket in HasMap
+                            //se il cliente esiste vado ad inserire gli altri dati del ticket in HasMap
                         }
                         Numint = Numint + 1;
                         DataApertura = LocalDate.now();
-                        DateTimeFormatter y = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                         out.println("Tecnico Assegnato ");
-                        String tecnico = ScTi.nextLine();
+                        String tecnico = ScTi.nextLine().toUpperCase();
                         out.println("Intervento : " + Numint + " -------- Data Apertura :" + DataApertura.format(y)+" Tecnico "+tecnico);
                         if (IdCliente.length() == 11) PartitaIva = IdCliente;
                         else CodiceFiscale = IdCliente;
@@ -228,7 +210,6 @@ public class CentroAssistenza {
                         out.println("Matricola Prodotto ");
                         MatricolaProdotto = ScTi.nextLine();
                         //inserisco prodotto e verifico se esiste (codice e matricola uguali) in tal caso carico il ticket
-                        //boolean ctr=false;
                         b = true;
                         int indice = -1;
                         for (ProdottoNew p1 : list) {
@@ -237,29 +218,27 @@ public class CentroAssistenza {
                                 out.println("OK! Prodotto esistente!" + "\n");
                                 out.println("Problema Riscontrato ");
                                 String ProbRisc = ScTi.nextLine();
-                                System.out.println("Num " + Numint);
+                                //System.out.println("Num " + Numint);
                                 ticket.put(Numint, new Ticket(Numint, DataApertura, PartitaIva, CodiceFiscale, RagioneSociale,tecnico, ProbRisc, CodiceProdotto, MatricolaProdotto, StatoIntervento, DescriInt, OreInt, CostoInt, DataChiusura));
-                                out.println(ticket.get(Numint).Numero);
-                                out.println(ticket.get(Numint).DataApertura);
-                                out.println("inserimento ticket");
-                                out.println("************************************************************************************** ");
-                                out.println("Ticket Num. .  [" + Numint + "] ---------  Data Apertura= " + DataApertura + " ------- Stato Intervento = " + StatoIntervento+" Tecnico "+tecnico);
+                                out.println("********************************************** inserimento ticket **************************************************");
+                                out.println("******************************************************************************************************************** ");
+                                out.println("Ticket Num.[" + Numint + "] ---------  Data Apertura = " + DataApertura + " ------- Stato Intervento = " + StatoIntervento+ "---------- Tecnico : "+tecnico);
                                 out.println("");
                                 out.println("");
                                 out.println("Identificativo Cliente " + PartitaIva + CodiceFiscale);
-                                RagioneSociale = cliente.get(IdCliente).getRagionesociale(); // ???????????????
+                                RagioneSociale = cliente.get(IdCliente).getRagionesociale();
                                 out.println("Ragione Sociale: " + RagioneSociale);
                                 Indirizzo = cliente.get(IdCliente).getCitta() + " - " + cliente.get(IdCliente).getIndirizzo();
                                 out.println("Indirizzo: " + Indirizzo);
                                 out.println("");
-                                Articolo = String.valueOf(list.get(indice).getDescrizione()); // ???????????????
+                                Articolo = String.valueOf(list.get(indice).getDescrizione());
                                 out.println("Articolo: " + Articolo);
                                 out.println("Codice Prodotto = " + CodiceProdotto + " S/N :" + MatricolaProdotto);
                                 out.println("");
                                 out.println("Problema Riscontrato : " + ProbRisc);
                                 out.println("");
-                                out.println("fine ticket ");
-                                System.out.println("************************************************************************************** " + "\n");
+                                out.println("********************************************** fine ticket **********************************************************");
+                                System.out.println("*************************************************************************************************************** " + "\n");
                                 b = false;
                                 break;
                             }
@@ -269,21 +248,16 @@ public class CentroAssistenza {
                             break;
                         }
                         break;
-
                     case (4):
                         //richiamo il ticket inserito in hasmap e inserisco dati mancanti
                         //stato intervento (aperto-chiuso-attesa ricambi)
-                        //ore lavoro e descrizione lavoro
+                        //ore lavoro costo e descrizione lavoro
                         //data chiusura intervento
                         out.println("aggiornamento ticket ");
-                        // Iterator tik = ticket.entrySet().iterator();
-                        // Verifica con il metodo hasNext() che nella hashmap
-                        // ci siano altri elementi su cui ciclare
                         Object Iterator;
-                        Iterator<Map.Entry<Integer, Ticket>> tik = ticket.entrySet().iterator();
-                        //Map.Entry<Integer, Ticket> t = tik.next();
-                        while (tik.hasNext()) {
-                            Map.Entry<Integer, Ticket> e = tik.next();
+                        Iterator<Map.Entry<Integer, Ticket>> tik1 = ticket.entrySet().iterator();
+                        while (tik1.hasNext()) {
+                            Map.Entry<Integer, Ticket> e = tik1.next();
                             out.println(e.getValue().toString());
                             out.println("Prossimo ticket ");
                         }
@@ -299,22 +273,17 @@ public class CentroAssistenza {
                         CostoInt = ScAg.nextDouble();
                         CostoInt = CostoInt * OreInt;
                         out.println("Inserire lo stato dell'intevento");
-                        StatoIntervento = ScAg.nextLine();
+                        StatoIntervento = "Chiuso";
                         DataChiusura = LocalDate.now();
                         ticket.put(numtick, new Ticket(numtick, DataApertura, PartitaIva, CodiceFiscale, RagioneSociale,Tecnico, ProblemaRiscontrato, CodiceProdotto, MatricolaProdotto, StatoIntervento, DescriInt, OreInt, CostoInt, DataChiusura));
                         out.println("Aggiornamento ticket");
                         out.println("************************************************************************************** ");
-                        out.println("Ticket Num. .  [" + numtick + "] ---------  Data Apertura= " + DataApertura + " ------- Stato Intervento = " + StatoIntervento);
+                        out.println("Ticket Num. .  [" + numtick + "] ---------  Data Apertura = " + DataApertura + " ------- Stato Intervento = " + StatoIntervento+ " ---------- Tecnico : "+Tecnico);
                         out.println("");
                         out.println("");
                         out.println("Identificativo Cliente " + PartitaIva + CodiceFiscale);
-                        //RagioneSociale = cliente.get(IdCliente).getRagionesociale(); // ???????????????
                         out.println("Ragione Sociale: " + RagioneSociale);
-                        //Indirizzo = cliente.get(IdCliente).getCitta() + " - " + cliente.get(IdCliente).getIndirizzo();
-                        //out.println("Indirizzo: " + Indirizzo);
                         out.println("");
-                        // Articolo = String.valueOf(list.get(indice).getDescrizione()); // ???????????????
-                        //out.println("Articolo: " + Articolo);
                         out.println("Codice Prodotto = " + CodiceProdotto + " S/N :" + MatricolaProdotto);
                         out.println("");
                         out.println("Problema Riscontrato : " + ProblemaRiscontrato);
@@ -326,14 +295,13 @@ public class CentroAssistenza {
                         System.out.println("************************************************************************************** " + "\n");
                         break;
                     case (5):
-                        //richiedo codice se voglio statistica per prodotto o cliente data o tecnico
+                        //richiedo codice se voglio statistica per prodotto , cliente o tecnico
                         //stampo su csv i dati degli interventi estratti
                         int x1 = 99;
                         while (x1 != 0) {
                             try {
                                 Scanner ScSt = new Scanner(System.in); //scanner della scelta del case esportazioni
                                 Scanner scannerstampe = new Scanner(System.in);
-
                                 out.println("*************** Stampe e esportazioni *************");
                                 out.println("1 Esporta dati per cliente : ");
                                 out.println("2 Esporta dati per Articolo : ");
@@ -341,16 +309,15 @@ public class CentroAssistenza {
                                 out.println("0 Uscita : ");
                                 x1 = ScSt.nextInt();
                                 out.println("\n");
-
                                 switch (x1) {
                                     case (1):
                                         out.println("**************Generazione file per cliente **************** ");
                                         File file1 = new File("cliente.csv");
-                                        if (file1.exists()) {
+                                        if (!file1.exists()) {file1.createNewFile();}
                                             out.println("Il file esiste ");
                                             out.println("Il file si trova in " + file1.getAbsolutePath());
                                             out.println("vuoi eliminare il file esistente ? (S/N) ");
-                                            String risposta1 = ScSt.nextLine();
+                                            String risposta1 = scannerstampe.nextLine();
                                             risposta1 = risposta1.toUpperCase();
                                             if (risposta1.equals("S")) {
                                                 file1.delete();
@@ -361,109 +328,84 @@ public class CentroAssistenza {
                                                 String idcliente = scannerstampe.nextLine();
                                                 idcliente = idcliente.toUpperCase();
                                                 writer.write("Codice Fiscale"+";"+"Partita Iva"+";"+"Ragione Sociale"+";"+"Data Apertura"+";"+"Numero"+";"+"Codice Prodotto"+";"+"Problema Riscontrato"+";"+"Descrizione Intervento"+";"+"Ore Intervento"+";"+"Costo Intervento"+";"+"Stato Intervento"+";"+"Data Chiusura\n");
-                                                Iterator<Map.Entry<Integer, Ticket>> tik1 = ticket.entrySet().iterator();
-                                                while (tik1.hasNext())
+                                                Iterator<Map.Entry<Integer, Ticket>> tik2  = ticket.entrySet().iterator();
+                                                while (tik2 .hasNext())
                                                 {
-                                                    Map.Entry<Integer, Ticket> e = tik1.next();
-
+                                                    Map.Entry<Integer, Ticket> e = tik2 .next();
                                                     if ((e.getValue().PartitaIva.equals(idcliente)) || (e.getValue().CodiceFiscale.equals(idcliente))) {
-
-                                                    }
-                                                        {
-                                                            if  ((e.getValue().PartitaIva == null) || (e.getValue().CodiceFiscale == null)) {
-                                                                out.println("Non ci sono elementi");}else{
-                                                            writer.append(e.getValue().CodiceFiscale+";"+e.getValue().PartitaIva+";"+e.getValue().Ragionesociale+";"+e.getValue().DataApertura+";"+e.getValue().Numero+";"+e.getValue().CodiceProdotto+";"+e.getValue().ProblemaRiscontrato+";"+e.getValue().descrizioneIntervento+";"+e.getValue().OreIntervento+";"+e.getValue().CostoIntervento+";"+e.getValue().StatoIntervento+";"+e.getValue().DataChiusura+"\n");
-                                                            writer.close();}
-                                                        }
-                                                }
+                                                        writer.append(e.getValue().CodiceFiscale+";"+e.getValue().PartitaIva+";"+e.getValue().Ragionesociale+";"+e.getValue().DataApertura+";"+e.getValue().Numero+";"+e.getValue().CodiceProdotto+";"+e.getValue().ProblemaRiscontrato+";"+e.getValue().descrizioneIntervento+";"+e.getValue().OreIntervento+";"+e.getValue().CostoIntervento+";"+e.getValue().StatoIntervento+";"+e.getValue().DataChiusura+"\n");
+                                                            }
+                                               }
+                                                writer.close();
                                                 } catch (IOException e)
                                                     {
                                                 throw new RuntimeException(e);
                                                     }
-                                                        }
-                                                        else {
-                                                                System.out.println("Il file non esiste");
-                                                                file1.createNewFile();
-                                                                //writer.write("Codice Fiscale"+";"+"Partita Iva"+";"+"Ragione Sociale"+";"+"Data Apertura"+";"+"Numero"+";"+"Codice Prodotto"+";"+"Problema Riscontrato"+";"+"Descrizione Intervento"+";"+"Ore Intervento"+";"+"Costo Intervento"+";"+"Stato Intervento"+";"+"Data Chiusura\n");
-                                                             }
-                                                       break;
-
+                                                 break;
                     case (2):
                         out.println("************** Generazione file per Articolo **************** ");
                         File file2 = new File("articolo.csv");
-                        if (file2.exists()) {
+                        if (!file2.exists()) {file2.createNewFile();}
                             out.println("Il file esiste ");
                             out.println("Il file si trova in " + file2.getAbsolutePath());
                             out.println("vuoi eliminare il file esistente ? (S/N) ");
-                            String risposta = ScSt.nextLine();
-                            risposta = risposta.toUpperCase();
-                            if (risposta.equals("S")) {
+                            risposta1 = scannerstampe.nextLine().toUpperCase();
+                            //risposta1 = risposta1.toUpperCase();
+                            if (risposta1.equals("S")) {
                                 file2.delete();
                             }
-                            try {
-                                FileWriter writer = new FileWriter("articolo.csv");
+                            try { FileWriter writer = new FileWriter("articolo.csv");
                                 out.println("Inserimento codice articolo");
                                 String idarticolo = scannerstampe.nextLine();
                                 idarticolo = idarticolo.toUpperCase();
-                                Iterator<Map.Entry<Integer, Ticket>> tik1 = ticket.entrySet().iterator();
-                                while (tik1.hasNext())
+                                writer.write("Codice Fiscale"+";"+"Partita Iva"+";"+"Ragione Sociale"+";"+"Data Apertura"+";"+"Numero"+";"+"Codice Prodotto"+";"+"Problema Riscontrato"+";"+"Descrizione Intervento"+";"+"Ore Intervento"+";"+"Costo Intervento"+";"+"Stato Intervento"+";"+"Data Chiusura\n");
+                                Iterator<Map.Entry<Integer, Ticket>> tik2  = ticket.entrySet().iterator();
+                                while (tik2 .hasNext())
                                 {
-                                    Map.Entry<Integer, Ticket> e = tik1.next();
-                                    writer.write("Codice Fiscale"+";"+"Partita Iva"+";"+"Ragione Sociale"+";"+"Data Apertura"+";"+"Numero"+";"+"Codice Prodotto"+";"+"Problema Riscontrato"+";"+"Descrizione Intervento"+";"+"Ore Intervento"+";"+"Costo Intervento"+";"+"Stato Intervento"+";"+"Data Chiusura\n");
-                                    if ((e.getValue().CodiceProdotto.equals(idarticolo)) )
-                                    {
+                                    Map.Entry<Integer, Ticket> e = tik2 .next();
+                                    if ((e.getValue().CodiceProdotto.equals(idarticolo)) ) {
                                         writer.append(e.getValue().CodiceFiscale+";"+e.getValue().PartitaIva+";"+e.getValue().Ragionesociale+";"+e.getValue().DataApertura+";"+e.getValue().Numero+";"+e.getValue().CodiceProdotto+";"+e.getValue().ProblemaRiscontrato+";"+e.getValue().descrizioneIntervento+";"+e.getValue().OreIntervento+";"+e.getValue().CostoIntervento+";"+e.getValue().StatoIntervento+";"+e.getValue().DataChiusura+"\n");
-                                        writer.close();
                                     }
                                 }
+                                writer.close();
                             } catch (IOException e)
                             {
                                 throw new RuntimeException(e);
                             }
-                        }
-                        else {
-                            System.out.println("Il file non esiste");
-                        }
-
                         break;
-                    case (3):
-                        out.println("**************Generazione file per Tecnico **************** ");
-                        File file3 = new File("tecnico.csv");
-                        if (file3.exists()) {
-                            out.println("Il file esiste ");
-                            out.println("Il file si trova in " + file3.getAbsolutePath());
-                            out.println("vuoi eliminare il file esistente ? (S/N) ");
-                            String risposta = ScSt.nextLine();
-                            risposta = risposta.toUpperCase();
-                            if (risposta.equals("S")) {
-                                file3.delete();
-                            }
-                            try {
-                                FileWriter writer = new FileWriter("tecnico.csv");
-                                out.println("Inserimento codice Tecnico");
-                                Tecnico = scannerstampe.nextLine();
-                                Tecnico = Tecnico.toUpperCase();
-                                Iterator<Map.Entry<Integer, Ticket>> tik1 = ticket.entrySet().iterator();
-                                while (tik1.hasNext())
-                                {
-                                    Map.Entry<Integer, Ticket> e = tik1.next();
-                                    writer.write("Codice Fiscale"+";"+"Partita Iva"+";"+"Ragione Sociale"+";"+"Data Apertura"+";"+"Numero"+";"+"Codice Prodotto"+";"+"Problema Riscontrato"+";"+"Descrizione Intervento"+";"+"Ore Intervento"+";"+"Costo Intervento"+";"+"Stato Intervento"+";"+"Data Chiusura\n");
-                                    if ((e.getValue().Tecnico.equals(Tecnico)) )
-                                    {
-                                        writer.append(e.getValue().CodiceFiscale+";"+e.getValue().PartitaIva+";"+e.getValue().Ragionesociale+";"+e.getValue().DataApertura+";"+e.getValue().Numero+";"+e.getValue().CodiceProdotto+";"+e.getValue().ProblemaRiscontrato+";"+e.getValue().descrizioneIntervento+";"+e.getValue().OreIntervento+";"+e.getValue().CostoIntervento+";"+e.getValue().StatoIntervento+";"+e.getValue().DataChiusura+"\n");
-                                        writer.close();
-                                    }
+                        case (3):
+                            //*******
+                            out.println("**************Generazione file per Tecnico **************** ");
+                            File file3 = new File("tecnico.csv");
+                            if (!file3.exists()) {file3.createNewFile();}
+                                out.println("Il file esiste ");
+                                out.println("Il file si trova in " + file3.getAbsolutePath());
+                                out.println("vuoi eliminare il file esistente ? (S/N) ");
+                                risposta1 = scannerstampe.nextLine().toUpperCase();
+                                //risposta1 = risposta1.toUpperCase();
+                                if (risposta1.equals("S")) {
+                                    file3.delete();
                                 }
-                            } catch (IOException e)
-                            {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                        else {
-                            System.out.println("Il file non esiste");
-                        }
-                        break;
-                    case (0):
+                                try { FileWriter writer = new FileWriter("tecnico.csv");
+                                    out.println("Inserimento Tecnico");
+                                    String idtecnico = scannerstampe.nextLine();
+                                    idtecnico = idtecnico.toUpperCase();
+                                    writer.write("Codice Fiscale"+";"+"Partita Iva"+";"+"Ragione Sociale"+";"+"Data Apertura"+";"+"Numero"+";"+"Codice Prodotto"+";"+"Problema Riscontrato"+";"+"Descrizione Intervento"+";"+"Ore Intervento"+";"+"Costo Intervento"+";"+"Stato Intervento"+";"+"Data Chiusura\n");
+                                    Iterator<Map.Entry<Integer, Ticket>> tik2  = ticket.entrySet().iterator();
+                                    while (tik2 .hasNext())
+                                    {
+                                        Map.Entry<Integer, Ticket> e = tik2 .next();
+                                        if ((e.getValue().Tecnico.equals(idtecnico)) ) {
+                                            writer.append(e.getValue().CodiceFiscale+";"+e.getValue().PartitaIva+";"+e.getValue().Ragionesociale+";"+e.getValue().DataApertura+";"+e.getValue().Numero+";"+e.getValue().CodiceProdotto+";"+e.getValue().ProblemaRiscontrato+";"+e.getValue().descrizioneIntervento+";"+e.getValue().OreIntervento+";"+e.getValue().CostoIntervento+";"+e.getValue().StatoIntervento+";"+e.getValue().DataChiusura+"\n");
+                                        }
+                                    }
+                                    writer.close();
+                                } catch (IOException e)
+                                {
+                                    throw new RuntimeException(e);
+                                }
+                            break;
+                            case (0):
                         break;
                     default:
                         out.println("la scelta fatta non è corretta 0 per uscire ");
